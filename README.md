@@ -1,4 +1,4 @@
-# react-webpack-initial
+# react-webpack-boilerplate
 A react + webapck boilerplate with:
  - react
  - webpack 2
