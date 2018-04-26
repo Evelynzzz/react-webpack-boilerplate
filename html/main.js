@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Route, hashHistory } from 'react-router'
+import { Switch, Route, HashRouter } from 'react-router-dom'
 
 import './styles/main.less'
 
@@ -23,10 +23,12 @@ class Main extends React.Component {
 }  
 ReactDOM.render (
   (
-    <Router history={hashHistory}>
-      <Route path={'/'} component={Main}></Route>
-      <Route path={'one'} component={One} />      
-  </Router>
+    <HashRouter>
+      <Switch>
+        <Route exact path={'/'} component={Main} />
+        <Route path={'/one'} component={One} />  
+      </Switch>          
+    </HashRouter>
   ),
   document.getElementById('main')
 );
