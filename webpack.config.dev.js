@@ -17,7 +17,8 @@ config.devtool = "#eval-source-map";
 config.entry.app = [
   'webpack-dev-server/client?http://' + ip + ':3000',
   'webpack/hot/only-dev-server',
-  './html/main',
+  'react-hot-loader/patch',
+  './html/app',
 ];
 
 // Tell django to use this URL to load packages and not use STATIC_URL + bundle_name
@@ -25,6 +26,7 @@ config.output.publicPath = 'http://' + ip + ':3000' + '/html/static/bundles/';
 
 //添加插件
 config.plugins = config.plugins.concat([
+  new webpack.NamedModulesPlugin(),   //当开启 HMR 的时候使用该插件会显示模块的相对路径
   new webpack.HotModuleReplacementPlugin(),
   new webpack.NoEmitOnErrorsPlugin(),
   new BundleTracker({filename: './webpack-stats-dev.json'}),

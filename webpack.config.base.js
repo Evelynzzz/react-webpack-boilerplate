@@ -13,7 +13,7 @@ module.exports = {
 
   entry: {
     // Add as many entry points as you have container-react-components here
-    app: './html/main.js',
+    app: './html/app.js',
     vendors: ['react']  //指定第三方插件打包到 vendors.js 中
   },
 
