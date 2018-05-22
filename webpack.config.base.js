@@ -20,7 +20,8 @@ module.exports = {
   output: {
     //打包文件输出目录
     path: path.resolve('./html/static/bundles/dev/'),
-    filename: "bundle.js",
+    filename: "app.js",
+    chunkFilename: "[name].bundle.js",
     //访问静态资源的基础路径
     publicPath: '/static/bundles/prod/'
   },
@@ -44,7 +45,7 @@ module.exports = {
         }  
     }),
     new ExtractTextPlugin({ //样式文件单独打包
-      filename: "main.css",
+      filename: "app.css",
       disable: false,
       allChunks: true
     })

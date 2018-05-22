@@ -5,13 +5,8 @@
       "stage-0"
     ],
     "plugins": [
-      [
-        "import",
-        [
-  
-        ]
-      ],
-      ["react-hot-loader/babel"],
-      ["transform-decorators-legacy"]
+      "react-hot-loader/babel",
+      "transform-decorators-legacy",
+      "syntax-dynamic-import"
     ]
   }
