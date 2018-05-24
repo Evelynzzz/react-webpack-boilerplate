@@ -59,17 +59,17 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
+        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
           fallback:'style-loader',
           use:['css-loader', 'postcss-loader'],
-        })
+        }))
       },
       {
         test: /\.less$/i,
-        use: ExtractTextPlugin.extract({
+        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
           fallback:'style-loader',
           use:['css-loader', 'less-loader'],
-        })
+        }))
       },
       {
         test: /\.html$/, 
