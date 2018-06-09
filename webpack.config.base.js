@@ -23,7 +23,7 @@ module.exports = {
     filename: "app.js",
     chunkFilename: "[name].bundle.js",
     //访问静态资源的基础路径
-    publicPath: '/static/bundles/prod/'
+    publicPath: 'html/static/bundles/'
   },
 
   externals: [
