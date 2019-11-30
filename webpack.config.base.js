@@ -4,12 +4,15 @@
  */
 var path = require("path");
 var webpack = require('webpack');
+var autoprefixer = require('autoprefixer');
+var cssnano = require('cssnano');
 //引入样式抽离插件
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   //基础目录，入口起点会相对于此目录查找
-  context: __dirname, 
+  context: __dirname,
 
   entry: {
     // Add as many entry points as you have container-react-components here
@@ -19,73 +22,98 @@ module.exports = {
 
   output: {
     //打包文件输出目录
-    path: path.resolve('./html/static/bundles/dev/'),
-    filename: "app.js",
+    path: path.resolve('./dist/bundles/'),
+    filename: "[name].js",
     chunkFilename: "[name].bundle.js",
     //访问静态资源的基础路径
-    publicPath: 'html/static/bundles/'
+    publicPath: '/bundles/'
   },
 
   externals: [
   ], // add all vendor libs
 
+  optimization: {
+    splitChunks: {
+      minChunks: 2, //Minimum number of chunks that must share a module before splitting.
+      cacheGroups: {
+        commons: {
+          name:"commons"
+        },
+        styles: {
+          name: 'app',
+          test: /\.(c|le)ss$/,
+          chunks: 'all',
+          enforce: true,
+        },
+      }
+    }
+  },
   plugins: [
-    //提取多个入口chunk的公共模板
-    new webpack.optimize.CommonsChunkPlugin({name:'vendors', filename:'vendors.js'}),
-    //配置全局/共享的加载器配置
-    new webpack.LoaderOptionsPlugin({  
-      options: {  
-          postcss: function(){  
-            return [  
-                require("autoprefixer")({  
-                    browsers: ['ie>=8','>1% in CN']  
-                })  
-            ]  
-          }  
-        }  
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // all options are optional
+      filename: '[name].css',
+      chunkFilename: '[id].css',
+      // ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
-    new ExtractTextPlugin({ //样式文件单独打包
-      filename: "app.css",
-      disable: false,
-      allChunks: true
-    })
   ], // add all common plugins here
 
   module: {
     rules:[
       {
-        test: /\/expression\/parser\.js$/, 
+        test: /\/expression\/parser\.js$/,
         use: 'exports-loader?parser'
       },
       {
         test: /\.css$/,
-        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
-          fallback:'style-loader',
-          use:['css-loader', 'postcss-loader'],
-        }))
+        use: [
+          'style-loader',
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // you can specify a publicPath here
+              // by default it uses publicPath in webpackOptions.output
+              hmr: devMode,
+              reloadAll: true
+            },
+          },
+          'css-loader','postcss-loader'
+        ],
       },
       {
         test: /\.less$/i,
-        use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
-          fallback:'style-loader',
-          use:['css-loader', 'less-loader'],
-        }))
+        use:  ['style-loader',
+        {
+          loader: MiniCssExtractPlugin.loader,
+          options: {
+            // you can specify a publicPath here
+            // by default it uses publicPath in webpackOptions.output
+            hmr: devMode,
+            reloadAll: true
+          },
+        },
+        'css-loader', 'postcss-loader', 'less-loader']
       },
       {
-        test: /\.html$/, 
+        test: /\.html$/,
         use: 'raw-loader'
       },
       {
-        test: /\.(gif|png|jpg)$/, 
+        test: /\.(gif|png|jpg)$/,
         use: 'url-loader?limit=8192'
       },
       // the url-loader uses DataUrls. url-loader封装了file-loader。
       //小于(limit/1024)kb的woff/wpff2文件被编码成DataURL，并内联到代码中.
       //大于这个限制的文件会使用file-loader打包。通过http请求加载。
       {
-        test: /\.(woff|woff2|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/, 
+        test: /\.(woff|woff2|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
         use: 'url-loader?limit=81920'
-      }      
+      },
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: ['babel-loader']
+      },
     ] // add all common loaders here
   },
 

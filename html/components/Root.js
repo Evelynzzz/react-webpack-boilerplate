@@ -1,10 +1,12 @@
+import { hot } from 'react-hot-loader/root';
 import React from 'react'
 import { Switch, Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import Loadable from 'react-loadable';
+import '../styles/main.less'
 
-export default class Root extends React.Component {
+class Root extends React.Component {
   constructor(props) {
-    super(props);    
+    super(props);
   }
 
   render() {
@@ -28,7 +30,7 @@ export default class Root extends React.Component {
 
           <hr />
           <Switch>
-            <Route exact path={'/'} 
+            <Route exact path={'/'}
               component={Loadable({
                 loader: () => import(/* webpackChunkName: "home" */ './Home.js'),
                 loading: Loading
@@ -36,19 +38,21 @@ export default class Root extends React.Component {
             <Route path={'/about'} component={Loadable({
                 loader: () => import(/* webpackChunkName: "about" */ './About.js'),
                 loading: Loading
-              })} />   
+              })} />
             <Route path={'/topics'} component={Loadable({
                 loader: () => import(/* webpackChunkName: "topics" */ './Topics.js'),
                 loading: Loading
-              })} />  
+              })} />
             <Route component={Loadable({
                 loader: () => import(/* webpackChunkName: "nomatch" */ './NoMatch.js'),
                 loading: Loading
-              })} /> 
+              })} />
           </Switch>
         </div>
       </Router>
     )
   }
 };
+
+export default hot(Root)
 
