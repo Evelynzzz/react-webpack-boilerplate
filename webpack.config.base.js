@@ -72,8 +72,8 @@ module.exports = {
               reloadAll: true,
             },
           },
-          { loader: 'css-loader', options: { sourceMap: true} }, // translates CSS into CommonJS
-          { loader: 'postcss-loader', options: { sourceMap: 'inline'}}, // autoprefix and minify css
+          { loader: 'css-loader', options: { sourceMap: devMode} }, // translates CSS into CommonJS
+          { loader: 'postcss-loader', options: { sourceMap: devMode?'inline':false}}, // autoprefix and minify css
         ],
       },
       {
@@ -89,9 +89,9 @@ module.exports = {
               reloadAll: true,
             },
           },
-          { loader: 'css-loader', options: { sourceMap: true}}, // translates CSS into CommonJS
-          { loader: 'postcss-loader', options: { sourceMap: 'inline'}},   // autoprefix and minify css
-          { loader: 'less-loader', options: { sourceMap: true }}  // compiles Less to CSS
+          { loader: 'css-loader', options: { sourceMap: devMode}}, // translates CSS into CommonJS
+          { loader: 'postcss-loader', options: { sourceMap: devMode?'inline':false}},   // autoprefix and minify css
+          { loader: 'less-loader', options: { sourceMap: devMode }}  // compiles Less to CSS
         ]
       },
       {
