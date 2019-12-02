@@ -4,7 +4,8 @@ export default class About extends React.Component {
     render() {
         return (
             <div>
-                <p>About</p>
+                <p>This is a react + webpack boilerplate.</p>
+                <p>Enjoy it!</p>
             </div>
         )
     }

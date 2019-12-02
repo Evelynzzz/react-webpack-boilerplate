@@ -11,12 +11,12 @@ class Root extends React.Component {
 
   render() {
 
-    const Loading = ()=> (<div>Loading...</div>)
+    const Loading = ()=> (<div>Loading...have a rest...</div>)
 
     return (
       <Router>
         <div>
-          <ul>
+          <ul className="header">
             <li>
               <Link to="/">Home</Link>
             </li>
