@@ -60,10 +60,6 @@ module.exports = {
   module: {
     rules:[
       {
-        test: /\/expression\/parser\.js$/,
-        use: 'exports-loader?parser'
-      },
-      {
         test: /\.css$/,
         use: [
           'style-loader',
