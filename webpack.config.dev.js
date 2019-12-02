@@ -33,8 +33,7 @@ config.devServer = {
   historyApiFallback: true,   //the index.html page will be served in place of any 404 responses.
 }
 
-// Tell django to use this URL to load packages and not use STATIC_URL + bundle_name
-config.output.publicPath = 'http://' + ip + ':' + port + '/html/static/bundles/';
+config.output.publicPath = 'http://' + ip + ':' + port + '/';
 
 //添加插件
 config.plugins = config.plugins.concat([
@@ -57,7 +56,7 @@ config.plugins = config.plugins.concat([
   new HtmlWebpackPlugin({ //生成的html中，css和js文件注入的路径是: output.publicPath + 文件名
     hash: true,
     template: 'html/index.html',
-    // filename: 'index.html',  //生成的html，路径相对于 output.publicPath。默认为index.html
+    filename: 'index.html',  //生成的html，路径相对于 output.publicPath。默认为index.html
   })
 ]);
 
