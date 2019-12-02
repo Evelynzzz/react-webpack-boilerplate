@@ -3,9 +3,7 @@
  * 在 webpack.config.dev.js 和 webpack.config.prod.js 文件中被引入。
  */
 var path = require("path");
-var webpack = require('webpack');
-var autoprefixer = require('autoprefixer');
-var cssnano = require('cssnano');
+// var webpack = require('webpack');
 //引入样式抽离插件
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const devMode = process.env.NODE_ENV !== 'production';
@@ -37,14 +35,15 @@ module.exports = {
       minChunks: 2, //Minimum number of chunks that must share a module before splitting.
       cacheGroups: {
         commons: {
-          name:"commons"
+          name:"commons",
         },
-        styles: {
-          name: 'app',
-          test: /\.(c|le)ss$/,
-          chunks: 'all',
-          enforce: true,
-        },
+        // Extracting all CSS/less in a single file
+        // styles: {
+        //   name: 'styles',
+        //   test: /\.(c|le)ss$/,
+        //   chunks: 'all',
+        //   enforce: true,
+        // },
       }
     }
   },
@@ -52,8 +51,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // all options are optional
-      filename: '[name].css',
-      chunkFilename: '[id].css',
+      filename: devMode ? '[name].css' : '[name].[hash].css',
+      chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
       // ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
   ], // add all common plugins here

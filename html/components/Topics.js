@@ -1,14 +1,15 @@
 import React from 'react'
 import { Switch, Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import "../styles/topics.less"
 
 export default class Topics extends React.Component {
   constructor(props) {
-    super(props);    
+    super(props);
   }
 
   render() {
     return (
-      <div>
+      <div className="topis-container">
         <h2>Topics</h2>
         <ul>
           <li>
