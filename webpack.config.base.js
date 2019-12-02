@@ -62,32 +62,37 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
+          'style-loader', //creates style nodes from JS strings
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              // you can specify a publicPath here
-              // by default it uses publicPath in webpackOptions.output
+              // only enable hot in development
               hmr: devMode,
-              reloadAll: true
+              // if hmr does not work, this is a forceful method.
+              reloadAll: true,
             },
           },
-          'css-loader','postcss-loader'
+          { loader: 'css-loader', options: { sourceMap: true} }, // translates CSS into CommonJS
+          { loader: 'postcss-loader', options: { sourceMap: 'inline'}}, // autoprefix and minify css
         ],
       },
       {
         test: /\.less$/i,
-        use:  ['style-loader',
-        {
-          loader: MiniCssExtractPlugin.loader,
-          options: {
-            // you can specify a publicPath here
-            // by default it uses publicPath in webpackOptions.output
-            hmr: devMode,
-            reloadAll: true
+        use:  [
+          'style-loader',  //creates style nodes from JS strings
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              // only enable hot in development
+              hmr: devMode,
+              // if hmr does not work, this is a forceful method.
+              reloadAll: true,
+            },
           },
-        },
-        'css-loader', 'postcss-loader', 'less-loader']
+          { loader: 'css-loader', options: { sourceMap: true}}, // translates CSS into CommonJS
+          { loader: 'postcss-loader', options: { sourceMap: 'inline'}},   // autoprefix and minify css
+          { loader: 'less-loader', options: { sourceMap: true }}  // compiles Less to CSS
+        ]
       },
       {
         test: /\.html$/,
