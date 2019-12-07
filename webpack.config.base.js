@@ -52,7 +52,7 @@ module.exports = {
       // Options similar to the same options in webpackOptions.output
       // all options are optional
       filename: devMode ? '[name].css' : '[name].[hash].css',
-      chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
+      chunkFilename: devMode ? '[name].css' : '[name].[hash].css',
       // ignoreOrder: false, // Enable to remove warnings about conflicting order
     }),
   ], // add all common plugins here
@@ -62,7 +62,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'style-loader', //creates style nodes from JS strings
+          // 'style-loader', //creates style nodes from JS strings
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
@@ -79,7 +79,7 @@ module.exports = {
       {
         test: /\.less$/i,
         use:  [
-          'style-loader',  //creates style nodes from JS strings
+          // 'style-loader',  //creates style nodes from JS strings
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
