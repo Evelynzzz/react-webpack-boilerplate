@@ -1,34 +1,42 @@
-import React from 'react'
+import React,{useState} from 'react'
 
-export default class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state={
-      name:""
-    }
+export default function Home(props){
+  const [name, setName]= useState("Evelyn")
+  const [surname, setSurname]= useState("ZHONG")
+
+  function handleNameChange(e){
+    setName(e.target.value)
   }
 
-  handleNameChange(e){
-    this.setState({name:e.target.value})
+  function handleClearName(){
+    setName("")
   }
 
-  handleClearName(){
-    this.setState({name:""})
+  function handleSurnameChange(e){
+    setSurname(e.target.value)
   }
 
-  render() {
-    const {name} =  this.state
-    return (
-      <div>
-         {<p>Hello {name}!</p>}
-         <input type="text"
-          placeholder="What's your name?"
-          onChange={this.handleNameChange.bind(this)}
-          value={name}
-          />
-          <button onClick={this.handleClearName.bind(this)}>Clear</button>
-         <br/>
-      </div>
-    )
+  function handleClearSurname(){
+    setSurname("")
   }
+
+
+  return (
+    <div>
+        {<p>Hello {name} {surname}!</p>}
+        <input type="text"
+        placeholder="What's your name?"
+        onChange={handleNameChange.bind(this)}
+        value={name}
+        />
+        <button onClick={handleClearName.bind(this)}>Clear</button>
+        <br/>
+        <input type="text"
+        placeholder="What's your surname?"
+        onChange={handleSurnameChange.bind(this)}
+        value={surname}
+        />
+        <button onClick={handleClearSurname.bind(this)}>Clear</button>
+    </div>
+  )
 }
