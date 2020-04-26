@@ -6,9 +6,8 @@ var path = require("path");
 // var webpack = require('webpack');
 //引入样式抽离插件
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const devMode = process.env.NODE_ENV !== 'production';
 
-module.exports = {
+var config = {
   //基础目录，入口起点会相对于此目录查找
   context: __dirname,
 
@@ -48,52 +47,10 @@ module.exports = {
     }
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      // Options similar to the same options in webpackOptions.output
-      // all options are optional
-      filename: devMode ? '[name].css' : '[name].[hash].css',
-      chunkFilename: devMode ? '[name].css' : '[name].[hash].css',
-      // ignoreOrder: false, // Enable to remove warnings about conflicting order
-    }),
   ], // add all common plugins here
 
   module: {
     rules:[
-      {
-        test: /\.css$/,
-        use: [
-          // 'style-loader', //creates style nodes from JS strings
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              // only enable hot in development
-              hmr: devMode,
-              // if hmr does not work, this is a forceful method.
-              reloadAll: true,
-            },
-          },
-          { loader: 'css-loader', options: { sourceMap: devMode} }, // translates CSS into CommonJS
-          { loader: 'postcss-loader', options: { sourceMap: devMode?'inline':false}}, // autoprefix and minify css
-        ],
-      },
-      {
-        test: /\.less$/i,
-        use:  [
-          // 'style-loader',  //creates style nodes from JS strings
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              // only enable hot in development
-              hmr: devMode,
-              // if hmr does not work, this is a forceful method.
-              reloadAll: true,
-            },
-          },
-          { loader: 'css-loader', options: { sourceMap: devMode}}, // translates CSS into CommonJS
-          { loader: 'postcss-loader', options: { sourceMap: devMode?'inline':false}},   // autoprefix and minify css
-          { loader: 'less-loader', options: { sourceMap: devMode }}  // compiles Less to CSS
-        ]
-      },
       {
         test: /\.html$/,
         use: 'raw-loader'
@@ -121,4 +78,59 @@ module.exports = {
     modules:['node_modules', 'bower_components'],
     extensions: ['.js', '.jsx', '.css']
   }
+};
+
+module.exports = (env, argv) => {
+
+  var devMode = argv.mode === 'development'   // whether is development mode
+
+  config.plugins.push(
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // all options are optional
+      filename: devMode ? '[name].css' : '[name].[hash].css',
+      chunkFilename: devMode ? '[name].css' : '[name].[hash].css',
+      // ignoreOrder: false, // Enable to remove warnings about conflicting order
+    })
+  )
+
+  config.module.rules.push(
+    {
+      test: /\.css$/,
+      use: [
+        // 'style-loader', //creates style nodes from JS strings
+        {
+          loader: MiniCssExtractPlugin.loader,
+          options: {
+            // only enable hot in development
+            hmr: devMode,
+            // if hmr does not work, this is a forceful method.
+            reloadAll: true,
+          },
+        },
+        { loader: 'css-loader', options: { sourceMap: devMode} }, // translates CSS into CommonJS
+        { loader: 'postcss-loader', options: { sourceMap: devMode?'inline':false}}, // autoprefix and minify css
+      ],
+    },
+    {
+      test: /\.less$/i,
+      use:  [
+        // 'style-loader',  //creates style nodes from JS strings
+        {
+          loader: MiniCssExtractPlugin.loader,
+          options: {
+            // only enable hot in development
+            hmr: devMode,
+            // if hmr does not work, this is a forceful method.
+            reloadAll: true,
+          },
+        },
+        { loader: 'css-loader', options: { sourceMap: devMode}}, // translates CSS into CommonJS
+        { loader: 'postcss-loader', options: { sourceMap: devMode?'inline':false}},   // autoprefix and minify css
+        { loader: 'less-loader', options: { sourceMap: devMode }}  // compiles Less to CSS
+      ]
+    }
+  )
+
+  return config;
 };

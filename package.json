@@ -4,8 +4,8 @@
   "description": "",
   "author": "zhong",
   "scripts": {
-    "start": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.dev.js --open",
-    "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js --progress --colors -p"
+    "start": "webpack-dev-server --mode development --config webpack.config.dev.js --open",
+    "build": "webpack --mode production --config webpack.config.prod.js --progress --colors -p"
   },
   "dependencies": {
     "core-js": "^3.4.5",
